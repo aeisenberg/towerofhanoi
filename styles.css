@@ -1,0 +1,52 @@
+.canvas {
+  position: relative;
+  top: 100px;
+}
+
+.tower {
+  height: 340px;
+  width: 30px;
+  top: 100px;
+  background-color: #A52A2A;
+  position: absolute;
+  overflow: visible;;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.base {
+  height: 30px;
+  bottom: 0;
+  width: 220px;
+  left: -100px;
+  background-color: inherit;
+  position: absolute;
+  border-radius: 8px;
+}
+
+.ring {
+  transition: 1s ease-in-out all;
+  height: 30px;
+  position: absolute;
+  border-radius: 8px;
+}
+
+.text {
+  font-weight: bold;
+  font-size: 30px;
+  float: left;
+  margin: 20px;
+}
+
+#error {
+  color: red;
+}
+
+.tower.selected {
+  background-color: #2a9da3;
+}
+
+.choosers {
+  float: left;
+  margin: 20px;
+}

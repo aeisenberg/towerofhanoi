@@ -1,11 +1,25 @@
+'use strict';
 
-
+const MOVE_SPEED_MS = 10;
 let towers;
 let firstSelected;
-
+let cancelAutoSolve = () => {};
 
 document.querySelector('#num-towers').addEventListener('change', createTowersAndRings);
 document.querySelector('#num-rings').addEventListener('change', createTowersAndRings);
+document.querySelector('#do-auto-solve').addEventListener('click', () => {
+  createTowersAndRings();
+  cancelAutoSolve = startAutoSolve(getNumberOfRings(), towers, moveRing, isWinState, showWinState);
+  document.querySelector('#stop-auto-solve').classList.remove('action-hidden');  
+  document.querySelector('#do-auto-solve').classList.add('action-hidden');  
+});
+document.querySelector('#stop-auto-solve').addEventListener('click', () => {
+  cancelAutoSolve();
+  showError();
+  document.querySelector('#do-auto-solve').classList.remove('action-hidden');  
+  document.querySelector('#stop-auto-solve').classList.add('action-hidden');  
+});
+
 createTowersAndRings();
 displayMessages();
 
@@ -28,10 +42,10 @@ function addTowerListeners() {
 }
 
 
-
 function createTowersAndRings() {
-  let numTowers = document.querySelector('#num-towers').value;
-  let numRings = document.querySelector('#num-rings').value;
+  cancelAutoSolve();
+  let numTowers = getNumberOfTowers();
+  let numRings = getNumberOfRings();
 
   // delete all old
   let canvas = document.querySelector('.canvas');
@@ -52,8 +66,9 @@ function createTowersAndRings() {
 
   addTowerListeners();
   displayRings();
+  resetMoveCounter();
+  displayMessages();
 }
-
 
 function createTower(num, parent) {
   let base = document.createElement('div');
@@ -88,6 +103,11 @@ function displayMessages(selected) {
   } else {
     selectedDisplayer.innerHTML = `Nothing selected`;
   }
+  const isWin = isWinState();
+  showWinState(isWin);
+  if (isWin) {
+    resetMoveCounter();
+  }
 }
 
 function moveRing(from, to) {
@@ -98,14 +118,22 @@ function moveRing(from, to) {
     toRings.unshift(fromRings.shift());
     displayRings();
     showError();
+    incrementMoveCounter();
   } else {
     showError('Illegal move');
   }
+
+  // Used to ensure proper timing between moves.
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, MOVE_SPEED_MS);
+  });
 }
 
+let errorTimeout;
 function showError(message = '') {
+  clearTimeout(errorTimeout);
   document.querySelector('#error').innerHTML = message;
-  setTimeout(() => document.querySelector('#error').innerHTML = '', 3000);
+  errorTimeout = setTimeout(() => document.querySelector('#error').innerHTML = '', 3000);
 }
 
 function displayRings() {
@@ -117,7 +145,45 @@ function displayRings() {
       ring.style.top = `${410 + (-30 * (numRings - j))}px`;
       ring.style.width = `${80 + (20 * ringNum)}px`;
       ring.style.left = `${170 + (-10 * ringNum) + (300 * i)}px`;
-      ring.style['background-color'] = `rgba(${255 - (20 * ringNum)}, ${184 + (ringNum * 20)}, ${162 + (ringNum * 20)})`;
+      ring.style['background-color'] = `rgb(${255 - (20 * ringNum)}, ${184 + (ringNum * 20)}, ${162 + (ringNum * 20)})`;
     });
   });
+}
+
+function incrementMoveCounter() {
+  document.querySelector('#move-counter').innerHTML = (Number(document.querySelector('#move-counter').innerHTML) || 0) + 1;
+}
+
+function resetMoveCounter() {
+  document.querySelector('#move-counter').innerHTML = 0;
+}
+
+/**
+ * A winning state is defined as having all rings on a single non-zero tower
+ * @return {Boolean} true if and only if the current configuraiton of rings
+ * is a winning configuration.
+ */
+function isWinState() {
+  const numRings = getNumberOfRings();
+  return towers.some((tower, cnt) => {
+    if (cnt === 0) {
+      return;
+    }
+    return tower.rings.length === numRings;
+  });
+}
+
+function getNumberOfRings() {
+  return Number(document.querySelector('#num-rings').value) || 0;
+}
+
+function getNumberOfTowers() {
+  return Number(document.querySelector('#num-towers').value) || 0;
+}
+
+function showWinState(isWin) {
+  const toAdd = isWin ? 'show-win' : 'hide-win';
+  const toRemove = isWin ? 'hide-win' : 'show-win';
+  document.querySelector('#you-win').classList.add(toAdd);
+  document.querySelector('#you-win').classList.remove(toRemove);
 }

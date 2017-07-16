@@ -1,3 +1,8 @@
+body {
+  font-family: sans-serif;
+  min-height: 700px;
+}
+
 .canvas {
   position: relative;
   top: 100px;
@@ -25,7 +30,7 @@
 }
 
 .ring {
-  transition: 1s ease-in-out all;
+  transition: 0.1s ease-in-out all;
   height: 30px;
   position: absolute;
   border-radius: 8px;
@@ -49,4 +54,65 @@
 .choosers {
   float: left;
   margin: 20px;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 20px;
+}
+
+.win {
+  position: absolute;
+  top: 400px;
+  left: 200px;
+  font-weight: bold;
+  font-size: 90px;
+  background-color: #2a9da3;
+}
+
+.win.hide-win {
+  opacity: 0;
+}
+
+.win.show-win {
+  animation-duration: 10s;
+  animation-name: you-win;
+  color: blue;
+  opacity: 1;
+  transform:translate(0, 0);
+}
+
+.action-hidden {
+  display: none;
+}
+
+.button {
+  background-color: #2a9da3;
+  color: #ffb400;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out all;
+  position: relative;
+  float: left;
+  top: -25px;
+}
+
+.button:hover {
+  background-color: rebeccapurple;
+}
+
+
+/* Ugh...this animation sux. Do something better */
+@keyframes you-win {
+  from {
+    transform:translate(200px, 200px);
+    color: red;
+    opacity: 0;
+  }
+
+  to {
+    transform:translate(0, 0);
+    color: blue;
+    opacity: 1;
+  }
 }

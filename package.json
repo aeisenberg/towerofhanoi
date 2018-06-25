@@ -1,0 +1,24 @@
+{
+  "name": "towerofhanoi",
+  "version": "1.0.1",
+  "description": "This is a simple Tower of Hanoi implementation that I created with my son to help at one of his math classes.",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/rimraf ./build && mkdir -p $_ && cp ./src/* ./build && npm run minify",
+    "minify": "./node_modules/.bin/uglifyjs ./build/scripts.js -o ./build/scripts.js && ./node_modules/.bin/uglifyjs ./build/simpleAlgorithm.js -o ./build/simpleAlgorithm.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aeisenberg/towerofhanoi.git"
+  },
+  "author": "Mauricio Poveda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aeisenberg/towerofhanoi/issues"
+  },
+  "homepage": "https://github.com/aeisenberg/towerofhanoi#readme",
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "uglify-es": "^3.3.9"
+  }
+}

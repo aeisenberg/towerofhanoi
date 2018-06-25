@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Tower of Hanoi</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="simpleAlgorithm.js" type="text/javascript" charset="utf-8" async defer></script>
+  <script src="scripts.js" type="text/javascript" charset="utf-8" async defer></script>
+</head>
+<body>
+
+  <div class="text">
+    <div>Click on a tower to select it.</div>
+    <div id="selected"></div>
+    <div id="error"></div>
+  </div>
+
+  <div class="choosers">
+    <label>
+      Choose number of towers:
+      <input id="num-towers" type="range" min="3" max="5" value="3"/>
+    </label>
+    <label>
+      Choose number of rings:
+      <input id="num-rings" type="range" min="2" max="9" value="3"/>
+    </label>
+  </div>
+  <div ckass="choosers">
+    <button id="do-auto-solve" class="button text">I'm feeling lazy</button>
+    <button id="stop-auto-solve" class="button text action-hidden">Stop the craziness!</button>
+  </div>
+  <div class="canvas"></div>
+
+  <div class="text bottom">
+    Number of Moves: <span id="move-counter">0</span>
+  </div>
+
+  <div id="you-win" class="hide-win win">
+    You WIN!!!
+  </div>
+</body>
+</html>

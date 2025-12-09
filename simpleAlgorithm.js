@@ -12,7 +12,7 @@ function startAutoSolve(startingRing, towers, moveRing, isWinState, showWinState
    * This is the main part of the algorithm. In order to move ring N,
    * we must first move all rings above it. After ring N is moved,
    * we must move all other rings back.
-   * 
+   *
    * @param  {number} number       The ring to move
    */
   async function moveN(ringNumber) {
@@ -42,7 +42,7 @@ function startAutoSolve(startingRing, towers, moveRing, isWinState, showWinState
 
   /**
    * Determines which tower this ring should be moved to.
-   * 
+   *
    * @param  {number} ringNumber the ring number to move
    * @return {tower}  the tower to move to
    */
@@ -75,7 +75,7 @@ function startAutoSolve(startingRing, towers, moveRing, isWinState, showWinState
    */
   function isBlocking(ringNumber, toTower) {
     let tower = getTower(ringNumber);
-    return tower.rings.indexOf(ringNumber) !== 0 && 
+    return tower.rings.indexOf(ringNumber) !== 0 &&
       toTower.rings[0] <= ringNumber;
   }
 
@@ -100,5 +100,3 @@ function startAutoSolve(startingRing, towers, moveRing, isWinState, showWinState
   }
 
 }
-
-
